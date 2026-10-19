@@ -1,0 +1,52 @@
+schema: spec-driven
+
+context: |
+  Project: new Chromium Manifest V3 extension with a Node.js/Fastify backend.
+  Repository: empty directory at initialization; no Git metadata or project files detected.
+  Architecture: extension client and Fastify HTTP backend; boundaries remain to be specified.
+  Package manager: not detectable until package metadata is created.
+  Testing: no runner or test configuration detected; Strict TDD is disabled.
+  Language: technical artifacts are English.
+  Workflow: OpenSpec artifacts are the source of truth for changes.
+
+strict_tdd: false
+
+testing:
+  runner:
+    available: false
+    command: ""
+    framework: ""
+  layers:
+    unit: { available: false, tool: "" }
+    integration: { available: false, tool: "" }
+    e2e: { available: false, tool: "" }
+  coverage: { available: false, command: "" }
+  quality:
+    linter: { available: false, command: "" }
+    type_checker: { available: false, command: "" }
+    formatter: { available: false, command: "" }
+
+rules:
+  proposal:
+    - Include rollback plans for risky changes.
+    - Keep changes reviewable; ask before using a chained PR strategy.
+  specs:
+    - Use Given/When/Then scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+  design:
+    - Document extension/backend boundaries and security rationale.
+    - Include sequence diagrams for cross-process or network flows.
+  tasks:
+    - Group tasks by phase and keep them completable in one session.
+    - Keep review units below 400 changed lines unless explicitly approved.
+  apply:
+    constraints:
+      - Follow established Node.js and Chromium extension conventions once created.
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: ""
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.

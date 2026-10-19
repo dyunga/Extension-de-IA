@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
+        env:
+          VITE_API_ORIGIN: http://127.0.0.1:8787
+          VITE_LOCAL_CLIENT_TOKEN: paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaU
+      - run: npm audit --audit-level=high
+      - run: npm audit --omit=dev --audit-level=high
+
+  # E2E remains local-only until the headed unpacked-extension fixture can use
+  # an isolated dynamic port and fail, rather than skip, when launch is unavailable.
