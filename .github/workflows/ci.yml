@@ -21,10 +21,9 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run lint
-      - run: npm run build
-        env:
-          VITE_API_ORIGIN: http://127.0.0.1:8787
-          VITE_LOCAL_CLIENT_TOKEN: paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaU
+      - run: |
+          token="$(node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('base64url'))")"
+          VITE_API_ORIGIN=http://127.0.0.1:8787 VITE_LOCAL_CLIENT_TOKEN="$token" npm run build
       - run: npm audit --audit-level=high
       - run: npm audit --omit=dev --audit-level=high
 

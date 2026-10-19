@@ -189,8 +189,16 @@ See [SECURITY.md](SECURITY.md) for vulnerability reporting.
 npm run typecheck
 npm test
 npm run lint
+$rng = [Security.Cryptography.RandomNumberGenerator]::Create()
+try {
+  $bytes = New-Object byte[] 32
+  $rng.GetBytes($bytes)
+  $token = [Convert]::ToBase64String($bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_')
+} finally {
+  $rng.Dispose()
+}
 $env:VITE_API_ORIGIN = "http://127.0.0.1:8787"
-$env:VITE_LOCAL_CLIENT_TOKEN = "paWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaU"
+$env:VITE_LOCAL_CLIENT_TOKEN = $token
 npm run build
 npm audit --audit-level=high
 npm audit --omit=dev --audit-level=high
